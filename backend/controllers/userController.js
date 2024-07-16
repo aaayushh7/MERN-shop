@@ -49,7 +49,8 @@ const loginUser = asyncHandler(async (req, res) => {
 
     if (isPasswordValid) {
       createToken(res, existingUser._id);
-
+      res.header("Access-Control-Allow-Credentials", true);
+      res.header("Access-Control-Allow-Origin", req.headers.origin);
       res.status(201).json({
         _id: existingUser._id,
         username: existingUser.username,
