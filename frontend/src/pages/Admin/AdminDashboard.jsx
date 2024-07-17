@@ -80,6 +80,7 @@ const AdminDashboard = () => {
             categories: formattedSalesDate.map((item) => item.x),
           },
         },
+
         series: [
           { name: "Sales", data: formattedSalesDate.map((item) => item.y) },
         ],
@@ -91,10 +92,10 @@ const AdminDashboard = () => {
     <>
       <AdminMenu />
 
-      <section className="ml-4 md:ml-0 xl:ml-16">
-        <div className="flex flex-wrap justify-around">
-          <div className="rounded-lg bg-black p-5 w-full md:w-[20rem] mt-5">
-            <div className="font-bold rounded-full w-12 h-12 bg-pink-500 text-center p-3">
+      <section className="xl:ml-[4rem] md:ml-[0rem]">
+        <div className="w-[80%] flex justify-around flex-wrap">
+          <div className="rounded-lg bg-black p-5 w-[20rem] mt-5">
+            <div className="font-bold rounded-full w-[3rem] bg-pink-500 text-center p-3">
               $
             </div>
 
@@ -103,39 +104,38 @@ const AdminDashboard = () => {
               $ {isLoading ? <Loader /> : sales.totalSales.toFixed(2)}
             </h1>
           </div>
-          <div className="rounded-lg bg-black p-5 w-full md:w-[20rem] mt-5">
-            <div className="font-bold rounded-full w-12 h-12 bg-pink-500 text-center p-3">
+          <div className="rounded-lg bg-black p-5 w-[20rem] mt-5">
+            <div className="font-bold rounded-full w-[3rem] bg-pink-500 text-center p-3">
               $
             </div>
 
             <p className="mt-5">Customers</p>
             <h1 className="text-xl font-bold">
-              {loading ? <Loader /> : customers?.length}
+              $ {isLoading ? <Loader /> : customers?.length}
             </h1>
           </div>
-          <div className="rounded-lg bg-black p-5 w-full md:w-[20rem] mt-5">
-            <div className="font-bold rounded-full w-12 h-12 bg-pink-500 text-center p-3">
+          <div className="rounded-lg bg-black p-5 w-[20rem] mt-5">
+            <div className="font-bold rounded-full w-[3rem] bg-pink-500 text-center p-3">
               $
             </div>
 
             <p className="mt-5">All Orders</p>
             <h1 className="text-xl font-bold">
-              {loadingTwo ? <Loader /> : orders?.totalOrders}
+              $ {isLoading ? <Loader /> : orders?.totalOrders}
             </h1>
           </div>
         </div>
 
-        <div className="ml-0 mt-8 md:ml-16">
+        <div className="ml-[10rem] mt-[4rem]">
           <Chart
             options={state.options}
             series={state.series}
             type="bar"
-            width="100%"
-            height="400"
+            width="70%"
           />
         </div>
 
-        <div className="mt-8">
+        <div className="mt-[4rem]">
           <OrderList />
         </div>
       </section>

@@ -14,7 +14,9 @@ const Shipping = () => {
   const [paymentMethod, setPaymentMethod] = useState("PayPal");
   const [address, setAddress] = useState(shippingAddress.address || "");
   const [city, setCity] = useState(shippingAddress.city || "");
-  const [postalCode, setPostalCode] = useState(shippingAddress.postalCode || "");
+  const [postalCode, setPostalCode] = useState(
+    shippingAddress.postalCode || ""
+  );
   const [country, setCountry] = useState(shippingAddress.country || "");
 
   const dispatch = useDispatch();
@@ -22,11 +24,13 @@ const Shipping = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
+
     dispatch(saveShippingAddress({ address, city, postalCode, country }));
     dispatch(savePaymentMethod(paymentMethod));
     navigate("/placeorder");
   };
 
+  // Payment
   useEffect(() => {
     if (!shippingAddress.address) {
       navigate("/shipping");
@@ -34,10 +38,10 @@ const Shipping = () => {
   }, [navigate, shippingAddress]);
 
   return (
-    <div className="container mx-auto mt-10 px-4">
+    <div className="container mx-auto mt-10">
       <ProgressSteps step1 step2 />
-      <div className="mt-10 flex justify-center">
-        <form onSubmit={submitHandler} className="w-full max-w-lg">
+      <div className="mt-[10rem] flex justify-around items-center flex-wrap">
+        <form onSubmit={submitHandler} className="w-[40rem]">
           <h1 className="text-2xl font-semibold mb-4">Shipping</h1>
           <div className="mb-4">
             <label className="block text-white mb-2">Address</label>
@@ -95,13 +99,14 @@ const Shipping = () => {
                   checked={paymentMethod === "PayPal"}
                   onChange={(e) => setPaymentMethod(e.target.value)}
                 />
+
                 <span className="ml-2">PayPal or Credit Card</span>
               </label>
             </div>
           </div>
 
           <button
-            className="bg-pink-500 text-white py-2 px-4 rounded-full text-lg w-full hover:bg-pink-600 transition-colors"
+            className="bg-pink-500 text-white py-2 px-4 rounded-full text-lg w-full"
             type="submit"
           >
             Continue
