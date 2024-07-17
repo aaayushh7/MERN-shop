@@ -92,14 +92,14 @@ const Order = () => {
   ) : error ? (
     <Messsage variant="danger">{error.data.message}</Messsage>
   ) : (
-    <div className="container flex flex-col ml-[10rem] md:flex-row">
-      <div className="md:w-2/3 pr-4">
-        <div className="border gray-300 mt-5 pb-4 mb-5">
+    <div className="container flex flex-col md:flex-row mx-auto px-4">
+      <div className="md:w-2/3 pr-0 md:pr-4">
+        <div className="border-gray-300 mt-5 pb-4 mb-5">
           {order.orderItems.length === 0 ? (
             <Messsage>Order is empty</Messsage>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-[80%]">
+              <table className="w-full">
                 <thead className="border-b-2">
                   <tr>
                     <th className="p-2">Image</th>
@@ -139,8 +139,8 @@ const Order = () => {
         </div>
       </div>
 
-      <div className="md:w-1/3">
-        <div className="mt-5 border-gray-300 pb-4 mb-4">
+      <div className="md:w-1/3 mt-5 md:mt-0">
+        <div className="border-gray-300 pb-4 mb-4">
           <h2 className="text-xl font-bold mb-2">Shipping</h2>
           <p className="mb-4 mt-4">
             <strong className="text-pink-500">Order:</strong> {order._id}
@@ -173,7 +173,7 @@ const Order = () => {
           )}
         </div>
 
-        <h2 className="text-xl font-bold mb-2 mt-[3rem]">Order Summary</h2>
+        <h2 className="text-xl font-bold mb-2 mt-6 md:mt-0">Order Summary</h2>
         <div className="flex justify-between mb-2">
           <span>Items</span>
           <span>$ {order.itemsPrice}</span>
@@ -198,13 +198,11 @@ const Order = () => {
               <Loader />
             ) : (
               <div>
-                <div>
-                  <PayPalButtons
-                    createOrder={createOrder}
-                    onApprove={onApprove}
-                    onError={onError}
-                  ></PayPalButtons>
-                </div>
+                <PayPalButtons
+                  createOrder={createOrder}
+                  onApprove={onApprove}
+                  onError={onError}
+                />
               </div>
             )}
           </div>
