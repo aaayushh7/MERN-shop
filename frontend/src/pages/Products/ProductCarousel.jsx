@@ -49,7 +49,7 @@ const ProductCarousel = () => {
               countInStock,
             }) => (
               <div key={_id} className="outline-none">
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid md:grid-cols-2 gap-4 ">
                   <img
                     src={image}
                     alt={name}
