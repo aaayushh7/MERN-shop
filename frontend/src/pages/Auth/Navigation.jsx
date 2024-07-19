@@ -139,16 +139,17 @@ const Navigation = () => {
               )}
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-4 mb-10">
               <Link
                 to="/login"
-                className="flex items-center space-x-4 p-2 hover:bg-gray-700 rounded-lg transition-colors duration-300"
                 onClick={toggleSidebar}
               >
-                <AiOutlineLogin className="text-2xl text-gray-300" />
-                <span className={`text-gray-300 ${isSmallScreen || sidebarOpen ? 'inline-block' : 'hidden group-hover:inline-block'} transition-opacity duration-300`}>
-                  Login
-                </span>
+                <div className="flex items-center space-x-4 p-2 hover:bg-gray-700 rounded-lg transition-colors duration-300">
+                  <AiOutlineLogin className="text-2xl text-gray-300" />
+                  <span className={`text-gray-300 ${isSmallScreen || sidebarOpen ? 'inline-block' : 'hidden group-hover:inline-block'} transition-opacity duration-300`}>
+                    Login
+                  </span>
+                </div>
               </Link>
               <Link
                 to="/register"
