@@ -1,15 +1,35 @@
 import path from "path";
 import express from "express";
 import multer from "multer";
+import aws from "aws-sdk";
+import multerS3 from "multer-s3";
+import dotenv from 'dotenv';
+
+// Load environment variables from .env file
+dotenv.config();
+
+// Log environment variables to ensure they are loaded correctly
+console.log('AWS_ACCESS_KEY_ID:', process.env.AWS_ACCESS_KEY_ID);
+console.log('AWS_SECRET_ACCESS_KEY:', process.env.AWS_SECRET_ACCESS_KEY);
+console.log('AWS_REGION:', process.env.AWS_REGION);
+console.log('S3_BUCKET_NAME:', process.env.S3_BUCKET_NAME);
 
 const router = express.Router();
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/");
-  },
+// AWS S3 configuration
+aws.config.update({
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  region: process.env.AWS_REGION,
+});
 
-  filename: (req, file, cb) => {
+const s3 = new aws.S3();
+
+const storage = multerS3({
+  s3: s3,
+  bucket: process.env.S3_BUCKET_NAME,
+  contentType: multerS3.AUTO_CONTENT_TYPE,
+  key: (req, file, cb) => {
     const extname = path.extname(file.originalname);
     cb(null, `${file.fieldname}-${Date.now()}${extname}`);
   },
@@ -35,11 +55,12 @@ const uploadSingleImage = upload.single("image");
 router.post("/", (req, res) => {
   uploadSingleImage(req, res, (err) => {
     if (err) {
+      console.error('Upload error:', err.message);
       res.status(400).send({ message: err.message });
     } else if (req.file) {
       res.status(200).send({
         message: "Image uploaded successfully",
-        image: `${process.env.BACKEND_URL}/${req.file.path}`,
+        image: req.file.location, // S3 file URL
       });
     } else {
       res.status(400).send({ message: "No image file provided" });
