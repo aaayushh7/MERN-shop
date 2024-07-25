@@ -11,7 +11,7 @@ const generateToken = (res, userId) => {
     secure: true,
     sameSite: 'Lax',
     maxAge: 30 * 24 * 60 * 60 * 1000,
-    partitioned: true  // Add this line
+    // partitioned: true  // Add this line
   });
 
 
