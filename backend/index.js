@@ -21,7 +21,7 @@ const app = express();
 
 app.use(cors({
   origin: ['https://mern-fe-orcin.vercel.app', 'http://localhost:5173'],
-  Credentials: true,
+  credentials: true,
 }));
 
 app.use(express.json());
