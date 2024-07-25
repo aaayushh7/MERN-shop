@@ -20,7 +20,7 @@ connectDB();
 const app = express();
 
 app.use(cors({
-  origin: ['https://mern-fe-orcin.vercel.app', 'http://localhost:5173'],
+  origin: ['https://mern-fe-orcin.vercel.app', 'http://localhost:5173','https://mern-shop-backend.vercel.app'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization']
