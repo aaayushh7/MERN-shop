@@ -16,6 +16,8 @@
     "axios": "^1.7.2",
     "bcryptjs": "^2.4.3",
     "cashfree-sdk": "^0.1.1",
+    "cashfree-pg": "^4.2.3",
+    "cashfree-pg-sdk-nodejs": "^2.0.2",
     "concurrently": "^8.2.2",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
