@@ -297,5 +297,4 @@ export {
   findOrderById,
   markOrderAsPaid,
   markOrderAsDelivered,
-  verifyCashfreePayment
 };
