@@ -1,4 +1,5 @@
 import express from "express";
+
 const router = express.Router();
 
 import {
@@ -11,6 +12,8 @@ import {
   findOrderById,
   markOrderAsPaid,
   markOrderAsDelivered,
+  cashfreeOrder, 
+  verifyCashfreePayment
 } from "../controllers/orderController.js";
 
 import { authenticate, authorizeAdmin } from "../middlewares/authMiddleware.js";
@@ -29,5 +32,9 @@ router.route("/:id/pay").put(authenticate, markOrderAsPaid);
 router
   .route("/:id/deliver")
   .put(authenticate, authorizeAdmin, markOrderAsDelivered);
+
+router.route("/:id/cashfree").post(authenticate, cashfreeOrder);
+router.route("/:id/verify-payment").post( authenticate, verifyCashfreePayment);
+
 
 export default router;

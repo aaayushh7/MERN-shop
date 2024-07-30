@@ -1,5 +1,11 @@
 import Category from "../models/categoryModel.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
+import {load} from '@cashfreepayments/cashfree-js';
+
+const cashfree = await load({
+	mode: "sandbox" 
+  
+});
 
 const createCategory = asyncHandler(async (req, res) => {
   try {
@@ -74,10 +80,36 @@ const readCategory = asyncHandler(async (req, res) => {
   }
 });
 
+// New function to create a Cashfree order for category-related payments
+const createCashfreeOrderForCategory = asyncHandler(async (req, res) => {
+  const { orderId, amount } = req.body; // Expect orderId and amount from request body
+
+  if (!orderId || !amount) {
+    res.status(400).json({ error: "Order ID and amount are required." });
+    return;
+  }
+
+  try {
+    const cashfreeOrder = await cashfree.createOrder({
+      orderId,
+      orderAmount: amount,
+      customerName: req.user.username,
+      customerEmail: req.user.email,
+      customerPhone: req.user.phone, // Ensure user has phone in the model
+    });
+
+    res.json(cashfreeOrder);
+  } catch (error) {
+    res.status(500);
+    throw new Error(error.message || "Cashfree order creation failed");
+  }
+});
+
 export {
   createCategory,
   updateCategory,
   removeCategory,
   listCategory,
   readCategory,
+  createCashfreeOrderForCategory, // Export the new Cashfree function
 };

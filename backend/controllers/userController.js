@@ -2,6 +2,12 @@ import User from "../models/userModel.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
 import bcrypt from "bcryptjs";
 import createToken from "../utils/createToken.js";
+import {load} from '@cashfreepayments/cashfree-js';
+
+const cashfree = await load({
+	mode: "sandbox" 
+  
+});
 
 const createUser = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
@@ -168,6 +174,31 @@ const updateUserById = asyncHandler(async (req, res) => {
   }
 });
 
+// New function to create a Cashfree order for user payments
+const createCashfreeOrderForUser = asyncHandler(async (req, res) => {
+  const { orderId, amount } = req.body; // Expect orderId and amount from request body
+
+  if (!orderId || !amount) {
+    res.status(400).json({ error: "Order ID and amount are required." });
+    return;
+  }
+
+  try {
+    const cashfreeOrder = await cashfree.createOrder({
+      orderId,
+      orderAmount: amount,
+      customerName: req.user.username,
+      customerEmail: req.user.email,
+      customerPhone: req.user.phone, // Ensure user has phone in the model
+    });
+
+    res.json(cashfreeOrder);
+  } catch (error) {
+    res.status(500);
+    throw new Error(error.message || "Cashfree order creation failed");
+  }
+});
+
 export {
   createUser,
   loginUser,
@@ -178,4 +209,5 @@ export {
   deleteUserById,
   getUserById,
   updateUserById,
+  createCashfreeOrderForUser, // Export the new Cashfree function
 };

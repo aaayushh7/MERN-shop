@@ -3,8 +3,9 @@ import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import { PaymentGateway } from '@cashfreepayments/cashfree-sdk';
 
-// Utiles
+// Utils
 import connectDB from "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
@@ -19,11 +20,10 @@ connectDB();
 
 const app = express();
 
+
 app.use(cors({
-  origin: ['https://mern-fe-orcin.vercel.app', 'http://localhost:5173','https://mern-shop-backend.vercel.app'],
+  origin: true,
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization']
 }));
 
 app.use(express.json());
@@ -40,8 +40,17 @@ app.get("/api/config/paypal", (req, res) => {
   res.send({ clientId: process.env.PAYPAL_CLIENT_ID });
 });
 
-// Remove or comment out the local uploads folder configuration if you don't want any local storage
-// const __dirname = path.resolve();
-// app.use("/uploads", express.static(path.join(__dirname + "/uploads")));
+// Cashfree Integration
+const cashfree = new PaymentGateway({
+  env: process.env.CASHFREE_ENV || "TEST",
+  apiVersion: "2022-09-01",
+  appId: process.env.CASHFREE_APP_ID,
+  secretKey: process.env.CASHFREE_SECRET_KEY,
+});
+
+// Make cashfree available to other modules
+app.set('cashfree', cashfree);
 
 app.listen(port, () => console.log(`Server running on port: ${port}`));
+
+export default app;

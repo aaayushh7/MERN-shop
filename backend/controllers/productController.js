@@ -1,5 +1,12 @@
 import asyncHandler from "../middlewares/asyncHandler.js";
 import Product from "../models/productModel.js";
+import {load} from '@cashfreepayments/cashfree-js';
+
+const cashfree = await load({
+	mode: "sandbox" 
+  
+});
+
 
 const addProduct = asyncHandler(async (req, res) => {
   try {
@@ -210,6 +217,33 @@ const filterProducts = asyncHandler(async (req, res) => {
   }
 });
 
+// New function to create a Cashfree order
+const createCashfreeOrderForProduct = asyncHandler(async (req, res) => {
+  const { productId } = req.params;
+
+  const product = await Product.findById(productId);
+
+  if (!product) {
+    res.status(404);
+    throw new Error("Product not found");
+  }
+
+  try {
+    const cashfreeOrder = await cashfree.createOrder({
+      orderId: productId,
+      orderAmount: product.price,
+      customerName: req.user.username,
+      customerEmail: req.user.email,
+      customerPhone: req.user.phone,
+    });
+
+    res.json(cashfreeOrder);
+  } catch (error) {
+    res.status(500);
+    throw new Error(error.message || "Cashfree order creation failed");
+  }
+});
+
 export {
   addProduct,
   updateProductDetails,
@@ -221,4 +255,5 @@ export {
   fetchTopProducts,
   fetchNewProducts,
   filterProducts,
+  createCashfreeOrderForProduct, // Export the new Cashfree function
 };
