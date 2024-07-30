@@ -34,7 +34,6 @@ router
   .put(authenticate, authorizeAdmin, markOrderAsDelivered);
 
 router.route("/:id/cashfree").post(authenticate, cashfreeOrder);
-router.route("/:id/verify-payment").post( authenticate, verifyCashfreePayment);
 
 
 export default router;
