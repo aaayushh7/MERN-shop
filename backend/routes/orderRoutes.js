@@ -13,7 +13,6 @@ import {
   markOrderAsPaid,
   markOrderAsDelivered,
   cashfreeOrder, 
-  verifyCashfreePayment
 } from "../controllers/orderController.js";
 
 import { authenticate, authorizeAdmin } from "../middlewares/authMiddleware.js";
