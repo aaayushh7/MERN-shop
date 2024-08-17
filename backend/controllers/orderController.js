@@ -119,8 +119,8 @@ const cashfreeOrder = asyncHandler(async (req, res) => {
 
       },
       "order_meta": {
-        "return_url": `https://mern-fe-orcin.vercel.app/order/${order._id.toString()}`,
-        "notify_url": `https://mern-shop-backend.vercel.app/api/webhook/cashfree`
+        "return_url": `http://nsrice.in/order/${order._id.toString()}`,
+        "notify_url": `https://api.nsrice.in/api/webhook/cashfree`
       }
     }
     var data = null;
@@ -159,7 +159,7 @@ const cashfreeOrder = asyncHandler(async (req, res) => {
       }
     });
 
-    
+
   } catch (error) {
     console.error('Error in createCashfreeOrder:', error);
     res.status(500).json({ error: error.message || "Cashfree order creation failed", stack: error.stack });
