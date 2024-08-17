@@ -119,7 +119,7 @@ const cashfreeOrder = asyncHandler(async (req, res) => {
 
       },
       "order_meta": {
-        "return_url": `http://nsrice.in/order/${order._id.toString()}`,
+        "return_url": `http://www.nsrice.in/order/${order._id.toString()}`,
         "notify_url": `https://api.nsrice.in/api/webhook/cashfree`
       }
     }
