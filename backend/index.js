@@ -22,7 +22,7 @@ const app = express();
 
 
 app.use(cors({
-  origin: ['https://www.nsrice.in', 'https://nsrice.in'],
+  origin: ['https://www.nsrice.in', 'https://nsrice.in','http://localhost:5173'],
   credentials: true,
   // methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   // allowedHeaders: ['Content-Type', 'Authorization']

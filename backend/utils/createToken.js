@@ -7,10 +7,10 @@ const generateToken = (res, userId) => {
 
   // Set JWT as an HTTP-Only Cookie
   res.cookie('jwt', token, {
-    domain: '.nsrice.in',
+    // domain: '.nsrice.in',
     httpOnly: true,
     secure: true,
-    sameSite: 'Strict',
+    sameSite: 'None',
     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
   });
 
